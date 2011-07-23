@@ -14,7 +14,7 @@ will start to implement some features in very soon.
 	* whatever module system it adpoted (RequireJS, SeaJS, FlyJS, JSI, etc.)
 	* whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
 	* whatever module pattern it used (function wrapper, eg. jQuery ...)
-	* and even for the old <script> files
+	* and even for the old \<script\> files
 
 * Easy to read, write and maitain the module definitions
 
