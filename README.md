@@ -46,11 +46,11 @@ will start to implement some features in very soon.
 
 * Browser:
 
-	<head>
-	...
-	<script src="http://hax.github.com/my.js" home="/js/lib"></script>
-	...
-	</head>
+		<head>
+			...
+			<script src="http://hax.github.com/my.js" home="/js/lib"></script>
+			...
+		</head>
 
 * Node.js or CommonJS
 
@@ -58,61 +58,61 @@ will start to implement some features in very soon.
 
 ### DSL ###
 
-// define the module _traits_ from local file
-module ('traits'). from ('traits.js/lib/traits.js')
+		// define the module _traits_ from local file
+		module ('traits'). from ('traits.js/lib/traits.js')
 
-// define the module _light_traits_ which follow AMD spec
-module ('light_traits'). from [AMD] ('traits.js/lib/traits.js')
+		// define the module _light_traits_ which follow AMD spec
+		module ('light_traits'). from [AMD] ('traits.js/lib/traits.js')
 
-// define the module _qwrap_ as naked script and exports the name _QW_
-module ('qwrap'). from [SCRIPT] ('core_dom_youa.com.js#QW')
+		// define the module _qwrap_ as naked script and exports the name _QW_
+		module ('qwrap'). from [SCRIPT] ('core_dom_youa.com.js#QW')
 
-// define the module from the web
-module ('gloader'). from [SCRIPT] ('https://www.google.com/jsapi#google')
+		// define the module from the web
+		module ('gloader'). from [SCRIPT] ('https://www.google.com/jsapi#google')
 
-// define the module from data uri
-// NOTE: it makes building deployment version possible and easy,
-//       all we need to do is resource mapping
-module ('sample1'). from ('data:application/javascript,exports.Greeting = {hello:"world"}')
+		// define the module from data uri
+		// NOTE: it makes building deployment version possible and easy,
+		//       all we need to do is resource mapping
+		module ('sample1'). from ('data:application/javascript,exports.Greeting = {hello:"world"}')
 
-// define another module which use last module
-module ('sample2'). from ('http://www.example.org/sample2.js')
+		// define another module which use last module
+		module ('sample2'). from ('http://www.example.org/sample2.js')
 
-// define a cross-origin proxy, so all http requests will be routed to the proxy
-resource ('http://*'). from ('/proxy?url=$1')
+		// define a cross-origin proxy, so all http requests will be routed to the proxy
+		resource ('http://*'). from ('/proxy?url=$1')
 
-// so _sample2_ will be transformed, and just like u write:
-module ('sample2'). from ('/proxy?url=http://www.example.org/sample2.js')
-// NOTE: url encode is missed here for easy to understand, but in real impl  
-//       it should be for encoded each mapping step
+		// so _sample2_ will be transformed, and just like u write:
+		module ('sample2'). from ('/proxy?url=http://www.example.org/sample2.js')
+		// NOTE: url encode is missed here for easy to understand, but in real impl  
+		//       it should be for encoded each mapping step
 
-// This will be transformed internally to AMD wrapper form just like u write:
-module ('sample2'). from [AMD] ('amdwrap:/proxy?url=http://www.example.org/sample2.js')
+		// This will be transformed internally to AMD wrapper form just like u write:
+		module ('sample2'). from [AMD] ('amdwrap:/proxy?url=http://www.example.org/sample2.js')
 
-// Normally, the _amdwrap_ derefernce will be called to wrap code dynamically,
-// but you can define a server-generated AMD wrapper
-resource ('amdwrap:*'). from ('/amdwrap?url=$1')
+		// Normally, the _amdwrap_ derefernce will be called to wrap code dynamically,
+		// but you can define a server-generated AMD wrapper
+		resource ('amdwrap:*'). from ('/amdwrap?url=$1')
 
-// So, it will transform the _sample2_ to:
-module ('sample2'). from [AMD] ('/amdwrap?url=/proxy?url=http://www.example.org/sample2.js')
-// NOTE: url encode is missed here for easy to understand, but in real impl 
-//       it should be for encoded each mapping step
+		// So, it will transform the _sample2_ to:
+		module ('sample2'). from [AMD] ('/amdwrap?url=/proxy?url=http://www.example.org/sample2.js')
+		// NOTE: url encode is missed here for easy to understand, but in real impl 
+		//       it should be for encoded each mapping step
 
 
-// define a resouce mapping rule, so last module will load source from data URI!
-resource ('http://www.example.org/sample2.js'). from (
-	"data:,var G = require('sample1').Greeting; console.info(G.hello);"
-)
+		// define a resouce mapping rule, so last module will load source from data URI!
+		resource ('http://www.example.org/sample2.js'). from (
+			"data:,var G = require('sample1').Greeting; console.info(G.hello);"
+		)
 
-// define another module from legacy scripts
-module ('sample3'). 
-	imports ('Global.console').
-	imports ('Greeting'). // which will be resolve to last _smaple1_ module
-	include ('sample/legacy.js'). // content: console.info('Hello' + Greeting.hello)
-end
+		// define another module from legacy scripts
+		module ('sample3'). 
+			imports ('Global.console').
+			imports ('Greeting'). // which will be resolve to last _smaple1_ module
+			include ('sample/legacy.js'). // content: console.info('Hello' + Greeting.hello)
+		end
 
-// define a module delegate to directory, so the modules definitions can be distributed
-module ('geo'). from ('geo/*')
+		// define a module delegate to directory, so the modules definitions can be distributed
+		module ('geo'). from ('geo/*')
 
 
 ### Rational ###
