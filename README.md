@@ -9,20 +9,22 @@ will start to implement some features in very soon.
 ### Basic Ideas/Requirements ###
 
 * Let all js be my js
-	whatever module spec it follows (CommonJS, AMD, etc.)
-	whatever module system it adpoted (RequireJS, SeaJS, FlyJS, JSI, etc.)
-	whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
-	whatever module pattern it used (function wrapper, eg. jQuery ...)
-	and even for the old <script> files
+
+	* whatever module spec it follows (CommonJS, AMD, etc.)
+	* whatever module system it adpoted (RequireJS, SeaJS, FlyJS, JSI, etc.)
+	* whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
+	* whatever module pattern it used (function wrapper, eg. jQuery ...)
+	* and even for the old <script> files
 
 * Easy to read, write and maitain the module definitions
-	define modules with a DSL which use a designed JavaScript syntax subset
-	support both centrelized and distributed module definition
-	support both local files/directories and web URLs
-	can build buddled packages for diff enviroments
+
+	* define modules with a DSL which use a designed JavaScript syntax subset
+	* support both centrelized and distributed module definition
+	* support both local files/directories and web URLs
+	* can build buddled packages for diff enviroments
 		(eg. can generate diff deployment files for diff browsers)
-	minify the diffs of dev/product via resouce mapping rules
-	limited module version support (to avoid bad practice)
+	* minify the diffs of dev/product via resouce mapping rules
+	* limited module version support (to avoid bad practice)
 
 * Optimized for AMD
 	most other forms will be first transformed to AMD form
@@ -30,14 +32,14 @@ will start to implement some features in very soon.
 * Allow define imports/exports for the module, require() is buzzy and bad 
 
 * Server-solution friendly
-	cross-origin proxy
-	scripts merge and minifier
-	AMD wrapper
-	alternative URLs from cdn
+	* cross-origin proxy
+	* scripts merge and minifier
+	* AMD wrapper
+	* alternative URLs from cdn
 	 
 * Add-ons
-	Allow to add wrapper, preprocessor, transformer, compiler
-	Example: module directive addon
+	* Allow to add wrapper, preprocessor, transformer, compiler
+	* Example: module directive addon
 		allow import/export/module/submoudle directives in diff styles
 
 ### Usage ###
@@ -51,6 +53,7 @@ will start to implement some features in very soon.
 	</head>
 
 * Node.js or CommonJS
+
 	require('my').js.home('js/lib')
 
 ### DSL ###
