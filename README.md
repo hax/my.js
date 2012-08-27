@@ -145,24 +145,24 @@ var pi = 3.14159265
 ```javascript
 // math.js (labeled module statements)
 
-	exports: function sum(x, y) {
-		return x + y
-	}
-	exports: var pi = 3.14159265
+exports: function sum(x, y) {
+	return x + y
+}
+exports: var pi = 3.14159265
 ```
 ```javascript	
-simple client code (directive prologues)
+// simple client code (directive prologues)
 
 'import {sum, pi} from "math.js"'
 
-alert("2¦Ð = " + sum(pi, pi))
+alert("2Ï€ = " + sum(pi, pi))
 ```
 ```javascript	
-simple client code (labeled module statements)
+// simple client code (labeled module statements)
 
 imports: {sum; pi} from: 'math.js'
 	
-alert("2¦Ð = " + sum(pi, pi))
+alert("2Ï€ = " + sum(pi, pi))
 ```
 
 Cheat sheet:
@@ -170,28 +170,33 @@ Cheat sheet:
 ES6 module statements        my.js directive prologues        my.js labeled module statements
                              * prologues only can occur at    * suffix 's' to avoid reserved keywords
                                the beginning of a file        * use ';' instead of ','
-
+```
+```javascript
 import {a, b} from "m.js"    'import {a, b} from "m.js"'      imports: {a; b} from: "m.js"
-
+```
+```javascript
 import {a:a1} from "m1.js"    'import {a:a1} from "m1.js"'    imports: {a:a1} from: "m1.js"
 import {a:a2} from "m2.js"    'import {a:a2} from "m2.js"'    imports: {a:a2} from: "m2.js"
-
+```
+```javascript
 export function f() {...}    'export f'                       exports: function f() {....}
                              ...
                              function f() {...}
-
+```
+```javascript
 export var v                 'export v'                       exports: var v
                              ...
                              var v							 
-
+```
+```javascript
 var a, b                     'export {a, b}'                  var a, b
 ...                          ...                              ...
 export {a, b}                var a, b                         exports: {a; b}
-
+```
+```javascript
 var _a, _b                   'export {a: _a, b: _b}'          var _a, _b
 ...                          ...                              ...
 export {a: _a, b: _b}        var _a, _b                       exports: {a: _a; b: _b}
-
 ```
 
 ### Rational ###
