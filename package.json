@@ -1,0 +1,16 @@
+{
+	"name": "my",
+	"version": "0.1.0",
+	"description": "my JavaScript module system",
+	"keywords": ["module", "loader", "import", "export"],
+	"author": "Hax <johnhax@gmail.com> (http://johnhax.net/)",
+	"homepage": "http://github.com/hax/my.js",
+	"bugs": "http://github.com/hax/my.js/issues",
+	"bin": {
+		"mym": "./cli.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/hax/my.js.git"
+	}
+}

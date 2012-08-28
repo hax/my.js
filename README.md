@@ -11,7 +11,6 @@ will start to implement some features in very soon.
 ### Basic Ideas/Requirements ###
 
 * Let all js be my js
-
 	* whatever module spec it follows (CommonJS, AMD, etc.)
 	* whatever module system it adpoted (RequireJS, SeaJS, FlyJS, JSI, etc.)
 	* whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
@@ -19,7 +18,6 @@ will start to implement some features in very soon.
 	* and even for the old \<script\> files
 
 * Easy to read, write and maitain the module definitions
-
 	* define modules with a DSL which use a designed JavaScript syntax subset
 	* support both centrelized and distributed module definition
 	* support both local files/directories and web URLs
@@ -29,9 +27,8 @@ will start to implement some features in very soon.
 	* limited module version support (to avoid bad practice)
 
 * Follow ES6 module draft
-
-* Allow define imports/exports statically for the modules, require() is buzzy 
-  and lose the benifits of static bindings
+	* Allow define imports/exports statically for the modules
+	* require() is buzzy and lose the benifits of static bindings
 
 * Server-solution friendly
 	* cross-origin proxy
