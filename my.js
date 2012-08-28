@@ -380,7 +380,7 @@ void function(){
 		try {
 			return require.resolve(path.resolve(baseURL, relURL))
 		} catch(e) {
-			console.error('what?')
+			console.error('what?', baseURL, relURL, path.resolve(baseURL, relURL))
 		}
 	}
 	
@@ -459,11 +459,12 @@ void function(){
 				exportPDs.push(name + ': {get: function(){ return ' + name + ' }}')
 			}
 			var src = src.replace(/^[\ufeff\ufffe]?(#!.*)?/, '')
-			
-			var code = 'console.log("baseURL:", $my$loader.baseURL, $my$loader._modules); with (Object.create(null,{' + importPDs.join(',') + '})) {' +
+			//console.log("baseURL:", $my$loader.baseURL, $my$loader._modules); 
+			var code = 'console.log("baseURL:", $my$loader.baseURL, ' + JSON.stringify(relURL) + ');void function($my$loader){ with (Object.create(null,{' + importPDs.join(',') + '})) {' +
 				'void function(){ arguments = undefined;' +
-				'$my$loader.set(' + JSON.stringify(relURL) +
-				', Object.create(null, {' + exportPDs.join(',') + '}));' + src + '}() }'
+				'$my$loader.set(' + JSON.stringify(resource.url) +
+				', Object.create(null, {' + exportPDs.join(',') + '}));' + src + '}() }}(Object.create($my$loader, {_baseURL:{value:' + JSON.stringify(resource.url) + '}}))'
+				//
 				
 			//console.log(src)
 			return Object.create(resource, {content:{value: code}})
