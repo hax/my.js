@@ -4,17 +4,21 @@
 ### What is my.js ###
 
 This project 'my.js' want to be the ultimate JavaScript module solution
-for everyone. It's now just some ideas (from long long ago to recent), but
-I am going to implement some features in very soon. 
+for everyone. It's based on my thought about module ecosystem from long
+long ago to recent.
+
+It's still in alpha phase, but I am working hard and a stable version
+will be available soon.
+
 
 #### Implemented features ####
 
 * ES6-like module/imports/exports declarations
-* Core loader for Node
+* Core loader for Node.js
+* Core loader for browsers (IE 6+)
 
 #### Features in near future ####
 
-* Core loader for browsers
 * support CommonJS 1.0
 * support CMD
 
@@ -27,7 +31,7 @@ I am going to implement some features in very soon.
 	- whatever module system it adpoted (RequireJS, SeaJS, JSI, etc.)
 	- whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
 	- whatever module pattern it used (function wrapper, eg. jQuery ...)
-	- and even for the old module-less \<script\>
+	- and even for the old module-less script tag
 
 * Future proof
 
@@ -37,8 +41,9 @@ I am going to implement some features in very soon.
 	  since require() is buzzy and lose the benifits of static bindings
 	- auto analyze exports for wrapped or even naked script,
 	  aka. module-less scripts traditionally loaded by \<script\>
-	- allow manually define modules if auto translating/analysis is not enough accurate or not possible at all
-	
+	- allow manually define modules if auto translating/analysis is not enough
+	  accurate or not possible at all
+
 * Easy to read, write and maintain the module definitions
 
 	- define modules with a DSL which use a designed ES3 syntax subset
@@ -55,7 +60,7 @@ I am going to implement some features in very soon.
 	- scripts merge and minifier
 	- AMD/CMD wrapper
 	- alternative URLs from cdn
-	 
+
 * Add-ons
 
 	- Allow to add code translators such as wrapper, preprocessor, compiler, etc.
@@ -63,7 +68,7 @@ I am going to implement some features in very soon.
 		module directive addon allow import/export/module/submodule directives in diff styles
 		coffeescript addon to support coffeescript
 
-		
+
 ### Usage ###
 
 * Browser:
@@ -94,14 +99,14 @@ directive prologues (just like 'use strict'), and labeled module statements
 
 ```javascript
 // math.js (directive prologues)
-	
+
 'export {sum, pi}'
 
 function sum(x, y) {
 	return x + y
 }
 var pi = 3.14159265
-```	
+```
 ```javascript
 // math.js (labeled module statements)
 
@@ -110,18 +115,18 @@ exports: function sum(x, y) {
 }
 exports: var pi = 3.14159265
 ```
-```javascript	
+```javascript
 // simple client code (directive prologues)
 
 'import {sum, pi} from "math.js"'
 
 alert("2π = " + sum(pi, pi))
 ```
-```javascript	
+```javascript
 // simple client code (labeled module statements)
 
 imports: {sum; pi} from: 'math.js'
-	
+
 alert("2π = " + sum(pi, pi))
 ```
 
@@ -146,7 +151,7 @@ export function f() {...}    'export f'                       exports: function 
 ```javascript
 export var v                 'export v'                       exports: var v
                              ...
-                             var v							 
+                             var v
 ```
 ```javascript
 var a, b                     'export {a, b}'                  var a, b
@@ -188,7 +193,7 @@ resource ('http://*'). from ('/proxy?url=$1')
 
 // so _sample2_ will be transformed, and just like u write:
 module ('sample2'). at ('/proxy?url=http://www.example.org/sample2.js')
-// NOTE: url encode is missed here for easy to understand, but in real impl  
+// NOTE: url encode is missed here for easy to understand, but in real impl
 //       it should be for encoded each mapping step
 
 // This will be transformed internally to AMD wrapper form just like u write:
@@ -200,7 +205,7 @@ resource ('amdwrap:*'). from ('/amdwrap?url=$1')
 
 // So, it will transform the _sample2_ to:
 module ('sample2'). at [AMD] ('/amdwrap?url=/proxy?url=http://www.example.org/sample2.js')
-// NOTE: url encode is missed here for easy to understand, but in real impl 
+// NOTE: url encode is missed here for easy to understand, but in real impl
 //       it should be for encoded each mapping step
 
 
@@ -210,7 +215,7 @@ resource ('http://www.example.org/sample2.js'). from (
 )
 
 // define another module from legacy scripts
-module ('sample3'). 
+module ('sample3').
 	imports ('Global.console').
 	imports ('Greeting'). // which will be resolve to last _smaple1_ module
 	include ('sample/legacy.js'). // content: console.info('Hello' + Greeting.hello)
@@ -223,15 +228,7 @@ module ('geo'). at ('geo/*')
 
 ### Rational ###
 
-There are three basic concept in this module solution:
-
-1. module
-	a block of reusable code 
-
-2. namespace
-	
-3. resource
-	the code source
+// TODO
 
 
 ### PS. ###
@@ -244,12 +241,11 @@ A:	Yes, there are many abbrev options, choose what you like,
 	* Module Yes!
 
 	* Make happY JavaScript!
-	
+
 	* Module Yoga for JavaScript  --- make your body flexible
-	
+
 	* Module Yammy!  --- take what match your taste
-	
+
 	* Module Yamiedie...
-	
- 
- 
+
+
