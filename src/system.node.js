@@ -3,8 +3,13 @@
 var vm = require('vm')
 var path = require('path'), fs = require('fs')
 
-var base = module.parent ? module.parent.parent ?
-	module.parent.parent.filename : module.parent.filename : module.filename
+var m = module
+while (m.parent) {
+	m = m.parent
+	var id = m.id.slice(m.id.lastIndexOf(path.sep) + 1)
+	if (id !== 'my.js') break
+}
+var base = m.filename
 
 var Loader = require('./loader').Loader
 
