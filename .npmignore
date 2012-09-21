@@ -1,2 +1,5 @@
 .*
 *.log
+test/.cover*
+test/cover_html
+test/sandbox
