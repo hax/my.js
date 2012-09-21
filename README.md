@@ -3,44 +3,65 @@
 
 ### What is my.js ###
 
-This project 'my.js' want to be the ultimate JavaScript module solution for 
-everyone. It's now just some ideas (from long long ago to recently), but I 
-will start to implement some features in very soon.
+This project 'my.js' want to be the ultimate JavaScript module solution
+for everyone. It's now just some ideas (from long long ago to recent), but
+I am going to implement some features in very soon. 
+
+#### Implemented features ####
+
+* ES6-like module/imports/exports declarations
+* Core loader for Node
+
+#### Features in near future ####
+
+* Core loader for browsers
+* support CommonJS 1.0
+* support CMD
 
 
 ### Basic Ideas/Requirements ###
 
 * Let all js be my js
-	* whatever module spec it follows (CommonJS, AMD, etc.)
-	* whatever module system it adpoted (RequireJS, SeaJS, FlyJS, JSI, etc.)
-	* whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
-	* whatever module pattern it used (function wrapper, eg. jQuery ...)
-	* and even for the old \<script\> files
 
-* Easy to read, write and maitain the module definitions
-	* define modules with a DSL which use a designed JavaScript syntax subset
-	* support both centrelized and distributed module definition
-	* support both local files/directories and web URLs
-	* can build buddled packages for diff enviroments
+	- whatever module spec it follows (CommonJS, AMD, CMD, etc.)
+	- whatever module system it adpoted (RequireJS, SeaJS, JSI, etc.)
+	- whatever script loader it accustomed to (LabJS, JSAN, Google JSAPI ...)
+	- whatever module pattern it used (function wrapper, eg. jQuery ...)
+	- and even for the old module-less \<script\>
+
+* Future proof
+
+	- based on ES6 module semantics, forward compatible with ES6
+	- support module/imports/exports declarations in ES6-like syntax for ES3-5
+	- auto translate require() to ES6-like imports,
+	  since require() is buzzy and lose the benifits of static bindings
+	- auto analyze exports for wrapped or even naked script,
+	  aka. module-less scripts traditionally loaded by \<script\>
+	- allow manually define modules if auto translating/analysis is not enough accurate or not possible at all
+	
+* Easy to read, write and maintain the module definitions
+
+	- define modules with a DSL which use a designed ES3 syntax subset
+	- support both centrelized and distributed module definitions
+	- support both local files/directories and Web URLs
+	- can build buddled packages for different enviroments
 		(eg. can generate diff deployment files for diff browsers)
-	* minify the diffs of dev/product via resouce mapping rules
-	* limited module version support (to avoid bad practice)
-
-* Follow ES6 module draft
-	* Allow define imports/exports statically for the modules
-	* require() is buzzy and lose the benifits of static bindings
+	- minify the diffs of dev/product via resource mapping rules
+	- limited module version support (to avoid bad practice)
 
 * Server-solution friendly
-	* cross-origin proxy
-	* scripts merge and minifier
-	* AMD wrapper
-	* alternative URLs from cdn
+
+	- cross-origin proxy
+	- scripts merge and minifier
+	- AMD/CMD wrapper
+	- alternative URLs from cdn
 	 
 * Add-ons
-	* Allow to add code translators such as wrapper, preprocessor, 
-	  transformer, compiler, etc.
-	* Example: module directive addon
-		allow import/export/module/submoudle directives in diff styles
+
+	- Allow to add code translators such as wrapper, preprocessor, compiler, etc.
+	- Example:
+		module directive addon allow import/export/module/submodule directives in diff styles
+		coffeescript addon to support coffeescript
 
 		
 ### Usage ###
@@ -61,70 +82,12 @@ will start to implement some features in very soon.
 require('my').load('app')
 ```
 
-### DSL ###
 
-```javascript
-// define the module _traits_ from local file
-module ('traits'). at ('traits.js/lib/traits.js')
+### Declare module, imports and exports in ES6-like syntax ###
 
-// define the module _light_traits_ which follow AMD spec
-module ('light_traits'). at [AMD] ('traits.js/lib/traits.js')
-
-// define the module _qwrap_ as naked script and exports the name _QW_
-module ('qwrap'). at [SCRIPT] ('core_dom_youa.com.js#QW')
-
-// define the module from the web
-module ('gloader'). at [SCRIPT] ('https://www.google.com/jsapi#google')
-
-// define the module from data uri
-// NOTE: it makes building deployment version possible and easy,
-//       all we need to do is resource mapping
-module ('sample1'). at ('data:application/javascript,exports.Greeting = {hello:"world"}')
-
-// define another module which use last module
-module ('sample2'). at ('http://www.example.org/sample2.js')
-
-// define a cross-origin proxy, so all http requests will be routed to the proxy
-resource ('http://*'). from ('/proxy?url=$1')
-
-// so _sample2_ will be transformed, and just like u write:
-module ('sample2'). at ('/proxy?url=http://www.example.org/sample2.js')
-// NOTE: url encode is missed here for easy to understand, but in real impl  
-//       it should be for encoded each mapping step
-
-// This will be transformed internally to AMD wrapper form just like u write:
-module ('sample2'). at [AMD] ('amdwrap:/proxy?url=http://www.example.org/sample2.js')
-
-// Normally, the _amdwrap_ derefernce will be called to wrap code dynamically,
-// but you can define a server-generated AMD wrapper
-resource ('amdwrap:*'). from ('/amdwrap?url=$1')
-
-// So, it will transform the _sample2_ to:
-module ('sample2'). at [AMD] ('/amdwrap?url=/proxy?url=http://www.example.org/sample2.js')
-// NOTE: url encode is missed here for easy to understand, but in real impl 
-//       it should be for encoded each mapping step
-
-
-// define a resouce mapping rule, so last module will load source from data URI!
-resource ('http://www.example.org/sample2.js'). from (
-	"data:,var G = require('sample1').Greeting; console.info(G.hello);"
-)
-
-// define another module from legacy scripts
-module ('sample3'). 
-	imports ('Global.console').
-	imports ('Greeting'). // which will be resolve to last _smaple1_ module
-	include ('sample/legacy.js'). // content: console.info('Hello' + Greeting.hello)
-end
-
-// define a module delegate to directory, so the modules definitions can be distributed
-module ('geo'). at ('geo/*')
-```
-		
-### Declare module, imports and exports ###
-
-Though my.js try to support all loaders and module system,
-but I recommand you using my.js built-in module system.
+Though my.js try to support all popular loaders and module systems, I recommand
+you start moving to my.js built-in ES6-like module system, because it is
+forward compatible with ES6 and can be auto migrate to ES6 with no pain.
 Currently my.js support two styles of declarations in-box,
 directive prologues (just like 'use strict'), and labeled module statements
 (inspired by <https://github.com/labeledmodules/labeled-modules-spec/wiki>)
@@ -195,6 +158,68 @@ var _a, _b                   'export {a: _a, b: _b}'          var _a, _b
 ...                          ...                              ...
 export {a: _a, b: _b}        var _a, _b                       exports: {a: _a; b: _b}
 ```
+
+
+### DSL ###
+
+```javascript
+// define the module _traits_ from local file
+module ('traits'). at ('traits.js/lib/traits.js')
+
+// define the module _light_traits_ which follow AMD spec
+module ('light_traits'). at [AMD] ('traits.js/lib/traits.js')
+
+// define the module _qwrap_ as naked script and exports the name _QW_
+module ('qwrap'). at [SCRIPT] ('core_dom_youa.com.js#QW')
+
+// define the module from the web
+module ('gloader'). at [SCRIPT] ('https://www.google.com/jsapi#google')
+
+// define the module from data uri
+// NOTE: it makes building deployment version possible and easy,
+//       all we need to do is resource mapping
+module ('sample1'). at ('data:application/javascript,exports.Greeting = {hello:"world"}')
+
+// define another module which use last module
+module ('sample2'). at ('http://www.example.org/sample2.js')
+
+// define a cross-origin proxy, so all http requests will be routed to the proxy
+resource ('http://*'). from ('/proxy?url=$1')
+
+// so _sample2_ will be transformed, and just like u write:
+module ('sample2'). at ('/proxy?url=http://www.example.org/sample2.js')
+// NOTE: url encode is missed here for easy to understand, but in real impl  
+//       it should be for encoded each mapping step
+
+// This will be transformed internally to AMD wrapper form just like u write:
+module ('sample2'). at [AMD] ('amdwrap:/proxy?url=http://www.example.org/sample2.js')
+
+// Normally, the _amdwrap_ derefernce will be called to wrap code dynamically,
+// but you can define a server-generated AMD wrapper
+resource ('amdwrap:*'). from ('/amdwrap?url=$1')
+
+// So, it will transform the _sample2_ to:
+module ('sample2'). at [AMD] ('/amdwrap?url=/proxy?url=http://www.example.org/sample2.js')
+// NOTE: url encode is missed here for easy to understand, but in real impl 
+//       it should be for encoded each mapping step
+
+
+// define a resouce mapping rule, so last module will load source from data URI!
+resource ('http://www.example.org/sample2.js'). from (
+	"data:,var G = require('sample1').Greeting; console.info(G.hello);"
+)
+
+// define another module from legacy scripts
+module ('sample3'). 
+	imports ('Global.console').
+	imports ('Greeting'). // which will be resolve to last _smaple1_ module
+	include ('sample/legacy.js'). // content: console.info('Hello' + Greeting.hello)
+end
+
+// define a module delegate to directory, so the modules definitions can be distributed
+module ('geo'). at ('geo/*')
+```
+
 
 ### Rational ###
 
