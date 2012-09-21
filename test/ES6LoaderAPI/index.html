@@ -1,0 +1,40 @@
+<!doctype html>
+<link rel="stylesheet" href="../browser/mocha.css">
+<script src="../browser/mocha.js"></script>
+<script>mocha.setup('tdd')</script>
+<script src="../browser/es3.1.js"></script>
+
+<script src="../browser/assert.js"></script>
+
+<script src="../../src/my.lookup.js"></script>
+<![if gte IE 9]>
+<script src="../../src/meta.es5.js"></script>
+<![endif]>
+<!--[if lt IE 9]>
+<script src="../../src/meta.legacy.js"></script>
+<![endif]-->
+<script src="../../src/meta.js"></script>
+<script src="../../src/loader.js"></script>
+<script>
+void function(root){
+	var lookup = root['my:lookup']
+	var Loader = lookup('./loader').Loader
+	var System = new Loader(null)
+	before(function(){
+		this.assert = assert
+		this.Loader = Loader
+		this.System = System
+	})
+	after(function(){
+		delete this.assert
+		delete this.System
+		delete this.Loader
+	})
+}(this)
+</script>
+<script src="./test.js"></script>
+
+<body>
+<div id="mocha"></div>
+<script>mocha.run()</script>
+</body>
