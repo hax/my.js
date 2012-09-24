@@ -81,7 +81,7 @@ will be available soon.
 </head>
 ```
 
-*NOTE:*
+**NOTE:**
 	Browser feature is unfinished, currently you should use
 	```<script src="./dist/my.browser.js">```
 	for standard browsers (IE 9+), or
