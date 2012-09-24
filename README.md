@@ -81,7 +81,8 @@ will be available soon.
 </head>
 ```
 
-NOTE: Browser feature is unfinished, currently you should use
+*NOTE:*
+	Browser feature is unfinished, currently you should use
 	```<script src="./dist/my.browser.js">```
 	for standard browsers (IE 9+), or
 	```<script src="./dist/my.browser.legacy.js">```
@@ -103,6 +104,10 @@ forward compatible with ES6 and can be auto migrate to ES6 with no pain.
 Currently my.js support two styles of declarations in-box,
 directive prologues (just like 'use strict'), and labeled module statements
 (inspired by <https://github.com/labeledmodules/labeled-modules-spec/wiki>)
+
+*NOTE:*
+	Currently (v0.3.3), only labeled module statements is implemented!
+	Directive prologues will be added in next version!
 
 ```javascript
 // math.js (directive prologues)
@@ -173,6 +178,8 @@ export {a: _a, b: _b}        var _a, _b                       exports: {a: _a; b
 
 
 ### DSL ###
+
+*Not implemented yet!*
 
 ```javascript
 // define the module _traits_ from local file
