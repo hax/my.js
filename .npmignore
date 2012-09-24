@@ -1,5 +1,10 @@
 .*
 *.log
-test/.cover*
+test/.*
 test/cover_html
 test/sandbox
+test/temp
+examples
+doc
+src/bak
+src/lib
