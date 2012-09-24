@@ -13,6 +13,7 @@ void function(root, factory){
 
 	'use strict'
 
+	var util = require('./util')
 	var meta = require('./meta')
 
 	exports.Module = Module
@@ -39,7 +40,7 @@ void function(root, factory){
 		},
 
 		method_referModule: function(module) {
-			var i = this.references.indexOf(module)
+			var i = util.indexOf(this.references, module)
 			if (i >= 0) return i
 			i = this.references.push(module) - 1
 			this.imports[i] = []
@@ -54,7 +55,7 @@ void function(root, factory){
 			var importPDs = []
 			for (var i = 0; i < this.imports.length; i++) {
 				var bindings = this.imports[i]
-				var mrl = JSON.stringify(this.references[i])
+				var mrl = util.toStringSource(this.references[i])
 				for (var j = 0; j < bindings.length; j++) {
 					var name = bindings[j]
 					importPDs.push(name +
@@ -62,27 +63,41 @@ void function(root, factory){
 				}
 			}
 
-			var exportPDs = []
+			var exportPDs = ['"[[Class]]":{value:"Module"}']
 			for (var i = 0; i < this.exports.length; i++) {
 				var name = this.exports[i]
 				exportPDs.push(name + ': {get: function(){ return ' + name + ' }}')
 			}
 
 			var src = this.source.replace(/^[\ufeff\ufffe]?(#!.*)?/, '')
-			var uri = JSON.stringify(this.uri)
+			var uri = util.toStringSource(this.uri)
 			//console.log("baseURL:", $my$loader.baseURL, $my$loader._modules);
 			var code = '/*console.log("baseURL:", $my$loader.baseURL, ' + uri + ');*/' +
-				'void function($my$loader){ with (Object.create(null,{' + importPDs.join(',') + '})) {' +
+				'void function($my$loader){ with ($create(null,{' + importPDs.join(',') + '})) {' +
 				'void function(){ arguments = undefined;' +
 				'$my$loader.set(' + uri +
-				', Object.create(null, {' + exportPDs.join(',') + '}));' + src +
-				'\n}() }}(Object.create($my$loader, {_baseURL:{value:' + uri + '}}))'
+				', $create(null, {' + exportPDs.join(',') + '}));' + src +
+				'\n}() }}($create($my$loader, {_baseURL:{value:' + uri + '}}))'
 				//
 
-			try {new Function(src)} catch(e) {console.error('src:', e.stack)}
-			try {new Function(code)} catch(e) {console.error('code:', code)}
+			//console.log(code)
+
+			/*try {
+				new Function(src)
+			} catch(e) {
+				console.error(e.message, 'src:', src)
+				throw e
+			}*/
+			try {
+				new Function(code)
+			} catch(e) {
+				console.error(e.message, ': ', code)
+				throw e
+			}
 			//console.log('Code:\n', code)
-			return Object.create(this, {source:{value: code}})
+			//return meta.create(this, {source:{value: code}})
+			this.source = code
+			return this
 		}
 	})
 

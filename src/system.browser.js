@@ -1,21 +1,14 @@
-void function(root, factory){
-	if (typeof require === 'function' && typeof exports === 'object' && exports) {
-		// CommonJS Module/1.0+
-		factory(require, exports)
-	} else if (typeof define === 'function' && (define.amd || define.cmd)) {
-		// AMD or CMD
-		define(factory)
-	} else {
-		var lookup = root['my:lookup']
-		factory(lookup, lookup('./system.browser'))
-	}
-}(this, function(require, exports){
+void function(root){
 
 	'use strict'
 
-	var resolveURI = require('./uri').resolveURI
+	var lookup = root['my:lookup']
+	var exports = lookup('./system.browser')
 
-	var Loader = require('./loader').Loader
+	var resolveURI = lookup('./uri').resolveURI
+	var toStringSource = lookup('./util').toStringSource
+
+	var Loader = lookup('./loader').Loader
 
 	var System = new Loader(null, {
 
@@ -24,15 +17,17 @@ void function(root, factory){
 				_context: createContext(),
 				execute: function(code, global, uri) {
 					try {
-						return new this._context.Function(
+						var src =
 							'with (this) {' +
-								'return eval("' + code.replace(/"/g, '\\"') + '")' +
+								'return eval(' + toStringSource(code) + ')' +
 							'}'
-						).call(global)
+						//console.log(src)
+						var f = new this._context.Function(src)
+						return f.call(global)
 					} catch(e) {
 						if (e.stack)
-							e.stack = uri + '\n' + e.stack
-						else e.message += ' (' + uri + ')'
+							e.stack = uri + '\n' + e.stack + src
+						else e.message += ' (' + uri + ') '
 						throw e
 					}
 				}
@@ -47,19 +42,20 @@ void function(root, factory){
 
 		fetch: function(relURL, baseURL, request, resolved) {
 			var url = resolveURI(relURL, baseURL)
-			get(url, function(err, data) {
+			get(url, function(err, result) {
 				if (err) request.reject(err)
-				else request.fulfill({source:data, uri:f})
+				else request.fulfill(result)
 			})
 		}
 
 	})
 
 	function createContext() {
+		if (!document.body) return root
 		var iframe = document.createElement('iframe')
 		iframe.width = iframe.height = 0
 		iframe.style.display = 'none'
-		document.appendChild(iframe)
+		document.body.appendChild(iframe)
 		iframe.src = 'javascript:'
 		var global = iframe.contentWindow
 		iframe.parentNode.removeChild(iframe).removeNode()
@@ -68,14 +64,44 @@ void function(root, factory){
 	}
 
 	function get(url, callback) {
+		//console.log('get', url)
+		var m = /^([a-z][a-z0-9._+-]*):(.*)$/i.exec(url)
+		if (m) {
+			var scheme = m[1].toLowerCase()
+			//console.log('scheme', scheme)
+			switch (scheme) {
+				case 'data':
+					var m = /([^,]*),(.*)/.exec(m[2])
+					if (m) {
+						var src = m[2]
+						src = m[1].slice(-7) === ';base64' ? atob(m[2]) : decodeURI(m[2])
+						//console.log(src)
+						callback(null, {source: src, uri: url, type: m[1]})
+					} else throw Error('Invalid URL:' + url)
+					return
+			}
+		}
+
 		var req = new XMLHttpRequest()
 		req.open('GET', url, false)
 		req.onreadystatechange = function(){
 			if (req.readyState === 4) {
-				callback(null, req.responseText)
+				callback(null, {
+					source: req.responseText,
+					uri: url,
+					type: req.getResponseHeader('Content-Type')
+				})
 			}
 		}
-		req.send()
+		try {
+			req.send()
+		} catch(e) {
+			callback(e)
+		}
 	}
 
-})
+	exports.Loader = Loader
+	exports.System = System
+	exports.global = root
+
+}(this)

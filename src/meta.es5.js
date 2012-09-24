@@ -11,7 +11,7 @@ void function(root, factory){
 	}
 }(this, function(_, exports){
 
-	var O = {}.constructor, A = [].constructor
+	var O = {}.constructor
 
 	exports.create = O.create
 	exports.proto = O.getPrototypeOf
@@ -20,7 +20,6 @@ void function(root, factory){
 	exports.ownNames = O.getOwnPropertyNames
 	exports.keys = O.keys
 	exports.freeze = O.freeze
-	exports.isArray = A.isArray
 	exports.Bindings = function Bindings(o) { return o }
 
 })

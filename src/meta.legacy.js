@@ -13,7 +13,6 @@ void function(root, factory){
 
 	// meta shim for legacy hosts like IE 6, 7, 8
 
-	console.log('test')
 	var ObjProtoPropNames = [
 		'constructor', 'hasOwnProperty', 'propertyIsEnumerable',
 		'isPrototypeOf', 'toLocaleString', 'toString', 'valueOf'
@@ -58,8 +57,10 @@ void function(root, factory){
 		}
 	}
 
+	var hasOwn = {}.hasOwnProperty
+
 	function getOwnPropertyDescriptor(target, name) {
-		return name in target && target.hasOwnProperty(name) ?
+		return name in target && hasOwn.call(target, name) ?
 			{
 				enumerable: target.propertyIsEnumerable(name),
 				value: target[name],
@@ -71,7 +72,7 @@ void function(root, factory){
 	function getOwnPropertyNames(target) {
 		var names = []
 		for (var name in target) {
-			if (target.hasOwnProperty(name) && name !== '__proto__') names.push(name)
+			if (hasOwn.call(target, name) && name !== '__proto__') names.push(name)
 		}
 		var bug = true
 		for (var k in {toString: 0}) bug = false
@@ -79,7 +80,7 @@ void function(root, factory){
 			var buggyNames = ObjProtoPropNames
 			for (var i = 0; i < buggyNames.length; i++) {
 				var name = buggyNames[i]
-				if (target.hasOwnProperty(name)) names.push(name)
+				if (hasOwn.call(target, name)) names.push(name)
 			}
 		}
 		return names
@@ -93,13 +94,11 @@ void function(root, factory){
 
 	function freeze(o) { return o }
 
-	function isArray(o) {
-		return {}.toString.call(o) === '[object Array]'
-	}
-
 	var defProp = {}.constructor.defineProperty
 
-	var Bindings = defProp == null ? create : function(){
+	var Bindings = defProp == null ? function(m) {
+			return create(m, m.__pds__)
+		} : function(){
 		var sheet = document.createStyleSheet()
 		var p = sheet.pages.constructor.prototype
 		var f = function(){}
@@ -118,6 +117,7 @@ void function(root, factory){
 				if (pd.get)
 					defProp(o, k, {get:getter(pd.get)})
 			}
+			//o.__module__ = m
 			return o
 			function getter(get) {
 				return function() { return get.call(m) }
@@ -132,7 +132,6 @@ void function(root, factory){
 	exports.ownNames = getOwnPropertyNames
 	exports.keys = keys
 	exports.freeze = freeze
-	exports.isArray = isArray
 	exports.Bindings = Bindings
 
 })

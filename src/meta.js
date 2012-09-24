@@ -15,6 +15,7 @@ void function(root, factory){
 
 	'use strict'
 
+	var util = require('./util')
 	var meta = 'create' in {}.constructor ?
 		require('./meta.es5') :
 		require('./meta.legacy')
@@ -67,18 +68,18 @@ void function(root, factory){
 		method_has: function has(key) {
 			var k = stringKey(key)
 			if (k != null) return k in this._stringMap
-			return this._keys.indexOf(key) >= 0
+			return util.indexOf(this._keys, key) >= 0
 		},
 		method_get: function get(key) {
 			var k = stringKey(key)
 			if (k != null) return this._stringMap[k]
-			var i = this._keys.indexOf(key)
+			var i = util.indexOf(this._keys, key)
 			return i >= 0 ? this._values[i] : undefined
 		},
 		method_set: function set(key, val) {
 			var k = stringKey(key)
 			if (k != null) return this._stringMap[k] = val, this
-			var i = this._keys.indexOf(key)
+			var i = util.indexOf(this._keys, key)
 			if (i >= 0) this._values[i] = val
 			else {
 				this._keys.push(key)
@@ -88,7 +89,7 @@ void function(root, factory){
 		method_remove: function remove(key) {
 			var k = stringKey(key)
 			if (k != null) return delete this._stringMap[k]
-			var i = this._keys.indexOf(key)
+			var i = util.indexOf(this._keys, key)
 			if (i >= 0) {
 				this._keys.splice(i, 1)
 				this._values.splice(i, 1)
@@ -111,17 +112,16 @@ void function(root, factory){
 		}
 	}
 
-	exports.extend = extend
-	exports._isCapitalized = isCapitalized
-	exports.Map = Map
-	exports._stringKey = stringKey
-
 	exports.create = meta.create
 	exports.proto = meta.proto
 	exports.ownNames = meta.ownNames
 	exports.keys = meta.keys
 	exports.freeze = meta.freeze
-	exports.isArray = meta.isArray
 	exports.Bindings = meta.Bindings
+
+	exports.extend = extend
+	//exports.isCapitalized = isCapitalized
+	exports.Map = Map
+	//exports.stringKey = stringKey
 
 })

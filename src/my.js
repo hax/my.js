@@ -13,6 +13,8 @@ void function(root, factory){
 
 	'use strict'
 
+	var meta = require('./meta')
+
 	var Module = require('./my.module').Module
 	Module.
 		addProcessor(require('./trans.dp').process).
@@ -37,16 +39,13 @@ void function(root, factory){
 	function Browser() {
 		if (typeof document === 'undefined' || !document.createElement) return
 
-		function importScript(path) {
-			var script = document.createElement('script')
-			script.src = path
-			var head = document.head || document.getElementsByTagName('head')[0]
-			head.appendChild(script)
-		}
+		var api = require('./system.browser')
+
+		api.global.System = MyLoader(api)
 	}
 
 	function MyLoader(api) {
-		var global = {}
+		var global = {$create: meta.create}
 		var myLoader = new api.Loader(api.System, {
 			global: global,
 			translate: function(resource, mrl, baseURL, resolved) {

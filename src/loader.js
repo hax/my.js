@@ -17,6 +17,7 @@ void function(root, factory){
 
 	'use strict'
 
+	var util = require('./util')
 	var meta = require('./meta')
 
 	exports.Module = Module
@@ -177,9 +178,9 @@ void function(root, factory){
 			return resource
 		},
 		method_load: function(mrls, callback, errback){
-			if (!meta.isArray(mrls)) mrls = [mrls]
+			if (!util.isArray(mrls)) mrls = [mrls]
 			if (typeof errback !== 'function')
-				errback = function(e) { console.error(e, e.stack) }
+				errback = function(e) { console.error(e, e.stack || '\n' + e.message) }
 			var modules = [], count = mrls.length
 			var base = this._baseURL
 
