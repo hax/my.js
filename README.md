@@ -40,7 +40,7 @@ will be available soon.
 	- auto translate require() to ES6-like imports,
 	  since require() is buzzy and lose the benifits of static bindings
 	- auto analyze exports for wrapped or even naked script,
-	  aka. module-less scripts traditionally loaded by \<script\>
+	  aka. module-less scripts traditionally loaded by script tag
 	- allow manually define modules if auto translating/analysis is not enough
 	  accurate or not possible at all
 
