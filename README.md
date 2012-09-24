@@ -81,6 +81,13 @@ will be available soon.
 </head>
 ```
 
+NOTE: Browser feature is unfinished, currently you should use
+	<script src="./dist/my.browser.js">
+	for standard browsers (IE 9+), or
+	<script src="./dist/my.browser.legacy.js">
+	for legacy browsers (IE 6, 7, 8)
+
+
 * Node.js or CommonJS
 
 ```javascript
