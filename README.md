@@ -82,9 +82,9 @@ will be available soon.
 ```
 
 NOTE: Browser feature is unfinished, currently you should use
-	<script src="./dist/my.browser.js">
+	```<script src="./dist/my.browser.js">```
 	for standard browsers (IE 9+), or
-	<script src="./dist/my.browser.legacy.js">
+	```<script src="./dist/my.browser.legacy.js">```
 	for legacy browsers (IE 6, 7, 8)
 
 
