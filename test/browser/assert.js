@@ -3,6 +3,9 @@ function assert(bool, message) {
 	if (!bool) throw Error(message)
 }
 assert.ok = assert
+assert.equal = function(result, expect) {
+	this(result == expect, 'equal failed')
+}
 assert.strictEqual = function(result, expect) {
 	this(result === expect, 'strictEqual failed')
 }

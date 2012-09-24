@@ -5,9 +5,9 @@ imports: {A1, A2, A3, A4} from: "a.js"
 //imports: {A3; A04:A4} from: "a.js"
 
 exports: function test() {
-	assert.equal(A1, 'A1')
-	assert.equal(A2(), 'A2')
-	assert.equal(A3 + '', 'A2')
+	assert.strictEqual(A1, 'A1')
+	assert.strictEqual(A2(), 'A2')
+	assert.strictEqual(A3 + '', 'A2')
 	assert.equal(A4.test, 'A2')
 }
 
