@@ -105,9 +105,9 @@ Currently my.js support two styles of declarations in-box,
 directive prologues (just like 'use strict'), and labeled module statements
 (inspired by <https://github.com/labeledmodules/labeled-modules-spec/wiki>)
 
-*NOTE:*
+**NOTE:
 	Currently (v0.3.3), only labeled module statements is implemented!
-	Directive prologues will be added in next version!
+	Directive prologues will be added in next version!**
 
 ```javascript
 // math.js (directive prologues)
@@ -179,7 +179,7 @@ export {a: _a, b: _b}        var _a, _b                       exports: {a: _a; b
 
 ### DSL ###
 
-*Not implemented yet!*
+**Not implemented yet!**
 
 ```javascript
 // define the module _traits_ from local file
