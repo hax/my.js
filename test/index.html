@@ -1,0 +1,62 @@
+<!doctype html>
+<link rel="stylesheet" href="./browser/mocha.css">
+<script src="./browser/mocha.js"></script>
+<script>mocha.setup('tdd')</script>
+<script src="./browser/es3.1.js"></script>
+
+<script src="./browser/assert.js"></script>
+
+<script src="../dist/my.browser.js" load=""></script>
+<script>
+suite('Loader API', function(){
+	test('System is available', function(){
+		assert.isDefined(System)
+	})
+	test('load resource', function(done){
+		System.load('./simple/hello.js', function(m){
+			assert.isDefined(m)
+			done()
+		}, function(err){
+			done()
+		})
+	})
+	test('data uri (valid source)', function(done){
+		System.load('data:text/javascript,{test:"Hello world"}', function(m){
+			assert.isDefined(m)
+			done()
+		})
+	})
+	test('data uri (invalid source)', function(done){
+		System.load('data:text/javascript,{:}', null, function(err){
+			assert.isDefined(err)
+			done()
+		})
+	})
+	test('data uri (export)', function(done){
+
+		System.load('data:,exports: var x = 2', function(m){
+			console.log(m.__module__)
+			assert.equal(m.x, 2)
+			done()
+		})
+	})
+	test('data uri (import/export)', function(done){
+		System.load(encodeURI('data:,imports:{x} from:"data:,exports: var x = 2"\nexports: var y = x * x'), function(m){
+			assert.equal(m.y, 4)
+			done()
+		})
+	})
+
+	test('Labelled Module Statements', function(done){
+		System.load('./LabelledModuleStatements/index.js', function(){
+			done()
+		})
+	})
+
+})
+</script>
+
+<body>
+<div id="mocha"></div>
+<script>mocha.run()</script>
+</body>
