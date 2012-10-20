@@ -1,8 +1,8 @@
 {
 	"name": "my",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"description": "my JavaScript module system",
-	"keywords": ["module", "loader", "import", "export"],
+	"keywords": ["module", "es6", "loader", "import", "export"],
 	"author": "Hax <johnhax@gmail.com> (http://johnhax.net/)",
 	"homepage": "http://github.com/hax/my.js",
 	"bugs": "http://github.com/hax/my.js/issues",
