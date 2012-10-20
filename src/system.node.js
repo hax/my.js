@@ -32,14 +32,7 @@ var System = new Loader(null, {
 				Object.defineProperties(this._context, pds)
 
 				// execute code
-				try {
-					return vm.runInContext(code, this._context, uri)
-				} catch(e) {
-					//console.error(uri)
-					console.error(e.stack)
-					//console.log(code)
-					throw e
-				}
+				return vm.runInContext(code, this._context, uri, true)
 
 				// move all properties from _context back to global
 				var pds = {}
