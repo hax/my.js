@@ -180,7 +180,7 @@ void function(root, factory){
 		method_load: function(mrls, callback, errback){
 			if (!util.isArray(mrls)) mrls = [mrls]
 			if (typeof errback !== 'function')
-				errback = function(e) { console.error(e, e.stack || '\n' + e.message) }
+				errback = function(e) { throw e }
 			var modules = [], count = mrls.length
 			var base = this._baseURL
 

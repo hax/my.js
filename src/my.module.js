@@ -72,7 +72,8 @@ void function(root, factory){
 			var src = this.source.replace(/^[\ufeff\ufffe]?(#!.*)?/, '')
 			var uri = util.toStringSource(this.uri)
 			//console.log("baseURL:", $my$loader.baseURL, $my$loader._modules);
-			var code = '/*console.log("baseURL:", $my$loader.baseURL, ' + uri + ');*/' +
+			var code =
+				//'/*console.log("baseURL:", $my$loader.baseURL, ' + uri + ');*/' +
 				'void function($my$loader){ with ($create(null,{' + importPDs.join(',') + '})) {' +
 				'void function(){ arguments = undefined;' +
 				'$my$loader.set(' + uri +
@@ -88,12 +89,12 @@ void function(root, factory){
 				console.error(e.message, 'src:', src)
 				throw e
 			}*/
-			try {
+			/*try {
 				new Function(code)
 			} catch(e) {
 				console.error(e.message, ': ', code)
 				throw e
-			}
+			}*/
 			//console.log('Code:\n', code)
 			//return meta.create(this, {source:{value: code}})
 			this.source = code
