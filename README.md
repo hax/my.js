@@ -1,6 +1,17 @@
 # my.js #
 
 
+### NOTE @ 2013-7-11 ###
+
+The Module/Loader feature of ECMAScript 6 changes a lot these days, and
+I will rewrite the core loader in near future.
+
+See https://gist.github.com/wycats/51c96e3adcdb3a68cbc3 for ES6 Modules,
+you will notice it has covered many regions my.js want to solve. Yes it
+is, and you can treat my.js as ES6 Module/Loader which can run in ES3+
+environment.
+
+
 ### What is my.js ###
 
 This project 'my.js' want to be the ultimate JavaScript module solution
