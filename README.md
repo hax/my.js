@@ -1,5 +1,7 @@
 # my.js #
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hax/my.js.svg)](https://greenkeeper.io/)
+
 
 ### NOTE @ 2013-7-11 ###
 
